@@ -37,6 +37,6 @@ providers:
      exposedByDefault: false
 
 pilot:
-    token: "60587d9b-c40b-4b1c-9bdc-cbc481290a18"
+    token: ""
 
 
