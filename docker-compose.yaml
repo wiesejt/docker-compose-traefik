@@ -1,0 +1,31 @@
+version: '3.5'
+
+services:
+
+  traefik:
+   image: "traefik:v2.3.1"
+   container_name: traefik
+   ports:
+     - 80:80
+     - 8080:8080
+     - 443:443
+   volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /docker/docker-compose-files/traefik/config/traefik.yml:/etc/traefik/traefik.yml
+      - /docker/docker-compose-files/traefik/config/letsencrypt:/letsencrypt
+      - /docker/docker-compose-files/traefik/config/logs:/logs
+   labels:
+      - traefik.http.routers.traefik.tls=true
+      - traefik.http.routers.traefik.rule=Host(`traefik.wiesefamily.io`)
+      - traefik.http.routers.traefik.tls.certresolver=le
+      - traefik.http.routers.traefik.tls.domains[0].main=wiesefamily.io
+      - traefik.http.routers.traefik.tls.domains[0].sans=*.wiesefamily.io,wiesefamily.io
+      - traefik.http.routers.traefik.entrypoints=web-secure
+      - traefik.docker.network=traefik_net
+   env_file: /docker/docker-compose-files/traefik/traefik.env
+   networks:
+     traefik_net:
+
+networks:
+  traefik_net:
+    external: true

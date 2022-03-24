@@ -1,0 +1,42 @@
+certificatesResolvers:
+  le:
+    acme:
+      email: quickrunner1988@gmail.com
+      storage: /letsencrypt/acme.json
+      caServer: https://acme-v02.api.letsencrypt.org/directory
+      dnsChallenge:
+        provider: namecheap
+        delayBeforeCheck: 0
+        resolvers:
+          - 1.1.1.1:53
+          - 8.8.8.8:53
+
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: web-secure
+          scheme: https
+          permanent: true
+  web-secure:
+    address: ":443"
+    forwardedHeaders:
+      insecure: false
+  
+
+api:
+  insecure: true
+  dashboard: true
+  debug: true
+
+providers:
+   docker:
+     endpoint: "unix:///var/run/docker.sock"
+     exposedByDefault: false
+
+pilot:
+    token: "60587d9b-c40b-4b1c-9bdc-cbc481290a18"
+
+
