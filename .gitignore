@@ -1,2 +1,2 @@
-config/letsencrypt/acme.json
+config/letsencrypt
 traefik.env
